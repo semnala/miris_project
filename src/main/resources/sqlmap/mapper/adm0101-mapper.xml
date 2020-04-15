@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="">
+	<select id="" parameterType="" resultType="">
+		<![CDATA[
+			SELECT
+				DEPT_CODE,
+				DEPT_NAME,
+				REG_DATE
+			FROM HRMS_DEPT_INFO
+		]]>
+		<where>
+			<if test =" dept_name !='' ">
+				AND DEPT_NAME = #{dept_name}
+			</if>
+		</where>
+	</select>
+	
 	<insert id="" parameterType="">
 		<![CDATA[
 			INSERT INTO HRMS_DEPT_INFO
