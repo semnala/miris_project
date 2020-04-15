@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+	
+	<!--  
+		* <intercept-url pattern="/index.do" access="permitAll" /> :  로그인 화면은 로그인하지 않아도 접근가능
+		* <intercept-url pattern="/service/*" access="hasRole('ADMIN')" /> : 이하 모든 페이지는 ADMIN 권한이 있어야 접근가능
+		* login-page="/common/login.do" : 커스텀 로그인 페이지 지정
+		* default-target-url="/index.do" : 로그인 후 기본으로 보여질 페이지
+		* username-parameter="id" : 로그인 폼에 아이디 입력 필드에 사용될 name 설정
+		* password-parameter="passwd" : 로그인 폼에 비밀번호 입력 필드에 사용될 name 설정
+		* logout-url="/logout" : 로그아웃에 사용될 페이지. 기본값은 /logout
+		* logout-success-url="/login?status=logout" : 로그아웃에 성공하였을 때 이동할 페이지
+	-->
+	<security:http auto-config="true" use-expressions="true">
+		<security:csrf disabled="true"/>
+		<security:intercept-url pattern="/index.do" access="permitAll" />
+		<security:intercept-url pattern="/hrms/*" access="hasRole('ADMIN')" /> 
+		<security:form-login login-page="/index.do"
+							 default-target-url="/login.do"
+							 login-processing-url="/auth" 
+							 username-parameter="id" 
+							 password-parameter="passwd" /> 
+		<security:logout logout-url="/logout" invalidate-session="true" logout-success-url="/login?status=logout" /> 
+	</security:http>
+	
+	<security:authentication-manager>
+		<security:authentication-provider>
+			<security:user-service>
+				<security:user name="user" password="password" authorities="ROLE_USER"/>
+				<security:user name="admin" password="password" authorities="ROLE_ADMIN"/>
+			</security:user-service> 
+		</security:authentication-provider>
+	</security:authentication-manager>
+	
+</beans>

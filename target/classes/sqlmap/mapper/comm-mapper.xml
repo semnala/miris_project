@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.miris.hrms.service.com.mapper.Com0101Mapper">
+	<select id="selectManagerInfo" parameterType="com.miris.hrms.service.com.vo.ManagerVO" resultType="com.miris.hrms.service.com.vo.ManagerVO">
+		<![CDATA[
+			SELECT
+				ADM_ID,
+				ADM_LEVEL,
+				USE_YN
+			FROM HRMS_ADMIN_USER
+		]]>
+		<where>
+			<if test ="">
+				AND ADM_ID = #{adm_id}
+				AND ADM_PW = #{adm_pw}
+			</if>
+		</where>
+	</select>
+	
+	<update id="updateLoginDate" parameterType="String">
+		<![CDATA[
+			UPDATE HRMS_ADMIN_USER
+			   SET LOGIN_DATE = TO_CHAR(SYSDATE ,'YYYYMMDDHH24MISS')
+		]]>
+		<where>
+			<if test ="">
+			   AND ADM_ID = #{id}
+			</if>
+		</where>
+	</update>
+</mapper>
